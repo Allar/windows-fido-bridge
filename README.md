@@ -15,8 +15,15 @@ At a minimum, you must have the following in order to use this repository:
 
 * A local Linux distribution running inside WSL with OpenSSH 8.3 or newer
   installed.
-  * An earlier version of OpenSSH will not work because of an incompatibility
-    with Microsoft's WebAuthn API.
+  * `cd ~`
+  * `sudo apt update && sudo apt install build-essential zlib1g-dev libssl-dev libpam0g-dev libselinux1-dev`
+  * `wget -c https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz`
+  * `tar -xzf openssh-8.8p1.tar.gz`
+  * `cd openssh-8.8p1`
+  * `./configure --with-md5-passwords --with-pam --with-selinux --with-privsep-path=/var/lib/sshd/ --sysconfdir=/etc/ssh`
+  * `sudo make install`
+  * Load into a new terminal
+  * `ssh -V` should return `OpenSSH_8.8p1`
 * A remote server running OpenSSH 8.2 or newer.
   * The aforementioned API incompatibility does not affect the remote server, so
     it **does not** need OpenSSH 8.3.
