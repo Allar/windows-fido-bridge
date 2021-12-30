@@ -94,6 +94,15 @@ make test
 sudo make install
 ```
 
+There is a slow down running .exe's off of the wsl2 filesystem apparently, as [this issue](https://github.com/mgbowen/windows-fido-bridge/issues/21) might seem to indicate. Fix for this is to move the windowsfidobridge.exe into /mnt/c/ and them symlink wsl2 to the /mnt/c.
+
+```
+sudo mkdir -p /mnt/c/windowsfidobridge/
+sudo mv /usr/local/.lib/windowsfidobridge.exe /mnt/c/windowsfidobridge/
+sudo ln -s /mnt/c/windowsfidobridge/windowsfidobridge.exe /usr/local/./lib/windowsfidobridge.exe
+```
+### deb helper
+
 There is also the option of packaging the built binaries into a deb package and
 installing that package instead of using `make install`:
 
@@ -128,7 +137,7 @@ To do that, you need to tell OpenSSH what middleware library to use. If you used
 the installation instructions above, you can use the following command:
 
 ```
-SSH_SK_PROVIDER=libwindowsfidobridge.so ssh-keygen -t ecdsa-sk
+SSH_SK_PROVIDER=libwindowsfidobridge.so ssh-keygen -t ed25519-sk -Oapplication=ssh:windows-fido-bridge-verify-required
 ```
 
 If everything goes well, you should see a Windows dialog pop up asking you to
