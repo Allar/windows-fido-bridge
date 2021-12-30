@@ -15,15 +15,19 @@ At a minimum, you must have the following in order to use this repository:
 
 * A local Linux distribution running inside WSL with OpenSSH 8.3 or newer
   installed.
-  * `cd ~`
-  * `sudo apt update && sudo apt install build-essential zlib1g-dev libssl-dev libpam0g-dev libselinux1-dev`
-  * `wget -c https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz`
-  * `tar -xzf openssh-8.8p1.tar.gz`
-  * `cd openssh-8.8p1`
-  * `./configure --with-md5-passwords --with-pam --with-selinux --with-privsep-path=/var/lib/sshd/ --sysconfdir=/etc/ssh`
-  * `sudo make install`
-  * Load into a new terminal
-  * `ssh -V` should return `OpenSSH_8.8p1`
+  ```
+  cd ~
+  sudo apt update && sudo apt install build-essential zlib1g-dev libssl-dev libpam0g-dev libselinux1-dev
+  wget -c https://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
+  tar -xzf openssh-8.8p1.tar.gz
+  rm openssh-8.8p1.tar.gz
+  cd openssh-8.8p1
+  ./configure --with-md5-passwords --with-pam --with-selinux --with-privsep-path=/var/lib/sshd/ --sysconfdir=/etc/ssh
+  sudo make install
+  cd ..
+  rm -rf openssh-8.8p1
+  ```
+  Load into a new terminal and `ssh -V` should return `OpenSSH_8.8p1`
 * A remote server running OpenSSH 8.2 or newer.
   * The aforementioned API incompatibility does not affect the remote server, so
     it **does not** need OpenSSH 8.3.
@@ -52,7 +56,30 @@ sudo apt install windows-fido-bridge
 
 ### From source
 
-You can also build this repository from source:
+You can also build this repository from source.
+
+#### C++20::span
+
+You will need a distro that supports c++20::span. Easiest way to do this is to upgrade your WSL2 Ubuntu from 20.04 to 21.04. 
+```
+sudo apt update
+sudo apt upgrade -y
+sudo apt purge snapd -y
+sudo do-release-upgrade
+```
+
+Follow the instructions to edit a config file to `Prompt=normal`, then:
+
+```
+sudo do-release-upgrade
+```
+
+If prompted to configure postfix for mail, choose leave unchanged.
+
+It will attempt to reboot. It will fail. Simply close the terminal. Open a new PowerShell as Admin and use `wsl --shutdown`. Then open your Ubuntu shell again. Running `lsb_release -a` should now show you as running Ubuntu 21.04.
+
+#### building
+
 
 ```
 sudo apt install build-essential cmake g++-mingw-w64-x86-64 git
