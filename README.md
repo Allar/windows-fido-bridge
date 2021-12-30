@@ -50,7 +50,7 @@ You can also build this repository from source:
 ```
 sudo apt install build-essential cmake g++-mingw-w64-x86-64 git
 
-git clone https://github.com/mgbowen/windows-fido-bridge.git
+git clone https://github.com/allar/windows-fido-bridge.git
 cd windows-fido-bridge
 mkdir build
 cd build
